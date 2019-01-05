@@ -178,7 +178,8 @@ def main():
     {
       'regex': re.compile('^Device\s+Id\s*:'),
       'action': [
-        'out["megacli_pd_info"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "type": "device_id" }, "val": line.split(":")[1].strip() })'
+        'device_id = line.split(":")[1].strip()',
+        'out["megacli_pd_info"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "type": "device_id" }, "val": device_id })'
       ]
     },
     {
@@ -196,19 +197,19 @@ def main():
     {
       'regex': re.compile('^Media\s+Error\s+Count\s*:'),
       'action': [
-        'out["megacli_pd_errors"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "type": "media" }, "val": line.split(":")[1].strip() })'
+        'out["megacli_pd_errors"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "device_id": device_id, "type": "media" }, "val": line.split(":")[1].strip() })'
       ]
     },
     {
       'regex': re.compile('^Other\s+Error\s+Count\s*:'),
       'action': [
-        'out["megacli_pd_errors"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "type": "other" }, "val": line.split(":")[1].strip() })'
+        'out["megacli_pd_errors"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "device_id": device_id, "type": "other" }, "val": line.split(":")[1].strip() })'
       ]
     },
     {
       'regex': re.compile('^Predictive\s+Failure\s+Count\s*:'),
       'action': [
-        'out["megacli_pd_errors"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "type": "predictive" }, "val": line.split(":")[1].strip() })'
+        'out["megacli_pd_errors"]["metrics"].append({ "labels": { "adapter": adapter, "enclosure": enclosure, "slot": slot, "device_id": device_id, "type": "predictive" }, "val": line.split(":")[1].strip() })'
       ]
     },
     {
